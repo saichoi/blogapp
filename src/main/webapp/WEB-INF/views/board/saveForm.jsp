@@ -5,12 +5,12 @@
 
 <div class="container p-4 w-70 rounded shadow">
 	<h5 style="font-family: 'IBM Plex Sans KR', sans-serif; margin-bottom: 30px;">글쓰기</h5>
-	<form>
+	<form action="/board" method="post">
 		<div class="form-group">
-			<input type="text" class="form-control" placeholder="Enter title">
+			<input type="text" class="form-control" name="title" placeholder="Enter title">
 		</div>
 		<div class="form-group">
-			<textarea id="summernote" class="form-control" ></textarea>
+			<textarea id="summernote" class="form-control" name="content"></textarea>
 		</div>
 		<button type="submit" class="btn btn-primary col-md-4" style="margin-top: 30px;">글쓰기</button>
 	</form>
