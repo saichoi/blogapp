@@ -7,7 +7,7 @@
 <div class="container">
 
 	<!-- 카드 글 시작 -->
-	<c:forEach var="board" items="${boardsEntity}">
+	<c:forEach var="board" items="${boardsEntity.content}">
 		<div class="card">
 			<div class="card-body">
 				<!-- el표현식은 변수명을 적으면 자동으로 get함수를 호출해준다. -->
@@ -18,7 +18,32 @@
 		<br>
 	</c:forEach>
 	<!-- 카드 글 끝 -->
+	<!-- disabled -->
+	<ul class="pagination d-flex justify-content-center">
+		<c:choose>
+			<c:when test="${boardEntity.first}">
+				<li class="page-item disabled"><a class="page-link"
+					href="/board?page=${boardsEntity.number - 1}">Prev</a></li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item"><a class="page-link"
+					href="/board?page=${boardsEntity.number - 1}">Prev</a></li>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${boardsEntity.last}">
+				<li class="page-item disabled"><a class="page-link"
+					href="/board?page=${param.page + 1}">Next</a></li>
+			</c:when>
+			<c:otherwise>
+				<li class="page-item"><a class="page-link"
+					href="/board?page=${param.page + 1}">Next</a></li>
+			</c:otherwise>
+		</c:choose>
+	</ul>
 
 </div>
+
+
 
 <%@ include file="../layout/footer.jsp"%>

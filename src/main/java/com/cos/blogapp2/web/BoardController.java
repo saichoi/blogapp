@@ -4,6 +4,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +40,12 @@ public class BoardController {
 	
 	//메인페이지 = 게시글 목록페이지
 	@GetMapping("/board")
-	public String list(Model model) {
-		List<Board> boardsEntity = boardRepository.findAll();
+	public String list(Model model, int page) {
+		
+		//페이징
+		PageRequest pageRequest = PageRequest.of(page, 3, Sort.by(Direction.DESC, "id"));
+		Page<Board> boardsEntity = boardRepository.findAll(pageRequest);
+		
 		model.addAttribute("boardsEntity",boardsEntity);
 		return "board/list";
 	}
