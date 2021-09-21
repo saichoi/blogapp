@@ -42,10 +42,23 @@
  			<span class="navbar-toggler-icon"></span>
  		</button>
  		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+ 		<c:choose>
+ 		<c:when test="${empty sessionScope.principal}">
  			<ul class="navbar-nav">
  				<li class="nav-item"><a class="nav-link" href="/loginForm">로그인</a></li>
  				<li class="nav-item"><a class="nav-link" href="/joinForm">회원가입</a></li>
  			</ul>
+ 		</c:when>
+ 		<c:otherwise>
+ 			<ul class="navbar-nav">
+ 				<li class="nav-item"><a class="nav-link" href="/board/saveForm">글쓰기</a></li>
+ 				<li class="nav-item"><a class="nav-link" href="/user/${sessionScope.principal.id}">회원정보</a></li>
+ 				<li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+ 			</ul>
+ 		</c:otherwise>
+ 		
+ 		</c:choose>
+ 			
  		</div>
  	</nav>
  	<br>
