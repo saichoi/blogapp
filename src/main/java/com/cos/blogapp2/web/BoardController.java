@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cos.blogapp2.domain.board.Board;
@@ -43,11 +44,13 @@ public class BoardController {
 	
 	//게시글 상세보기
 	@GetMapping("/board/{id}")
-	public String detail() {
+	public String detail(@PathVariable int id, Model model) {
+		Board boardEntity = boardRepository.findById(id).get();
+		model.addAttribute("boardEntity",boardEntity);
 		return "board/detail";
 	}
 	
-	//게시글 쓰기
+	//게시글 쓰기 페이지 
 	@GetMapping("/board/saveForm")
 	public String saveForm() {
 		return "board/saveForm";
