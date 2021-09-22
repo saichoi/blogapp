@@ -1,7 +1,5 @@
 package com.cos.blogapp2.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.domain.Page;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.cos.blogapp2.domain.board.Board;
 import com.cos.blogapp2.domain.board.BoardRepository;
 import com.cos.blogapp2.domain.user.User;
+import com.cos.blogapp2.handler.ex.MyNotFountException;
 import com.cos.blogapp2.web.dto.BoardSaveReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -54,7 +53,7 @@ public class BoardController {
 	@GetMapping("/board/{id}")
 	public String detail(@PathVariable int id, Model model) {
 		Board boardEntity = boardRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow( ()-> new MyNotFountException("게시글"+id+"번을 찾을 수 없습니다."));
 		model.addAttribute("boardEntity",boardEntity);
 		return "board/detail";
 	}
