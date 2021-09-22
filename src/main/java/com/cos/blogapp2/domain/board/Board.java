@@ -33,6 +33,7 @@ public class Board {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@Column(nullable = false, length = 70)
 	private String title;
 	
 	@Lob

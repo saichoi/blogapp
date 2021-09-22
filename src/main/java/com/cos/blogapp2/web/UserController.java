@@ -58,7 +58,7 @@ public class UserController {
 		User principal = userRepository.mLogin(dto.getUsername(), encPassword);
 
 		if (principal == null) {
-			return "redirect:/loginForm";
+			return  Script.back("아이디 혹은 비밀번호를 잘못 입력하였습니다.");
 		} else {
 			session.setAttribute("principal", principal);
 			return Script.href("/","로그인 성공");
