@@ -1,5 +1,6 @@
 package com.cos.blogapp2.domain.board;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,10 +32,14 @@ public class Board {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	private String title;
+	
 	@Lob
 	private String content;
+	
 	@JoinColumn(name = "userId")
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
+	
 }

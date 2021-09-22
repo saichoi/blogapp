@@ -10,7 +10,7 @@
 			<input type="text" class="form-control" name="username" placeholder="Enter username" required="required" maxlength="20">
 		</div>
 		<div class="form-group">
-			<input type="password" class="form-control"  name="password" placeholder="Enter password" required="required" maxlength="20">
+			<input type="password" class="form-control"  name="password" placeholder="Enter password" maxlength="20">
 		</div>
 		<div class="form-group">
 			<input type="email" class="form-control" name="email" placeholder="Enter email">

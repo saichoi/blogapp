@@ -1,11 +1,19 @@
 package com.cos.blogapp2.web;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.blogapp2.domain.user.User;
 import com.cos.blogapp2.domain.user.UserRepository;
@@ -33,7 +41,7 @@ public class UserController {
 	// 로그인
 	@PostMapping("/login")
 	public String login(LoginReqDto dto) {
-
+		
 		String encPassword = SHA.encrypt(dto.getPassword());
 		User principal = userRepository.mLogin(dto.getUsername(), encPassword);
 
@@ -47,8 +55,19 @@ public class UserController {
 
 	// 회원가입
 	@PostMapping("/join")
-	public String join(JoinReqDto dto) {
+	public String join(@Valid JoinReqDto dto, BindingResult bindingResult, Model model) {
+		
+		//유효성 검사 실패
+		if(bindingResult.hasErrors()) {
+			Map<String, String>errorMap = new HashMap<>();
+			for(FieldError error : bindingResult.getFieldErrors()) {
+				errorMap.put(error.getField(),error.getDefaultMessage());
+			}
+			model.addAttribute("errorMap",errorMap);
+			return "error/error";
+		}
 
+		//유효성 검사 성공 
 		// 비밀번호 해시로 변경
 		String encPassword = SHA.encrypt(dto.getPassword());
 		dto.setPassword(encPassword);
