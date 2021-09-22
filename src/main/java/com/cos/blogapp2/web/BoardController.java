@@ -53,7 +53,8 @@ public class BoardController {
 	//게시글 상세보기
 	@GetMapping("/board/{id}")
 	public String detail(@PathVariable int id, Model model) {
-		Board boardEntity = boardRepository.findById(id).get();
+		Board boardEntity = boardRepository.findById(id)
+				.orElseThrow();
 		model.addAttribute("boardEntity",boardEntity);
 		return "board/detail";
 	}
