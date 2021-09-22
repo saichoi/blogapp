@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cos.blogapp2.domain.user.User;
 import com.cos.blogapp2.domain.user.UserRepository;
 import com.cos.blogapp2.util.SHA;
+import com.cos.blogapp2.util.Script;
 import com.cos.blogapp2.web.dto.JoinReqDto;
 import com.cos.blogapp2.web.dto.LoginReqDto;
 
@@ -40,7 +41,7 @@ public class UserController {
 
 	// 로그인
 	@PostMapping("/login")
-	public String login(@Valid LoginReqDto dto, BindingResult bindingResult, Model model) {
+	public @ResponseBody String login(@Valid LoginReqDto dto, BindingResult bindingResult, Model model) {
 
 		// 유효성 검사 실패
 		if (bindingResult.hasErrors()) {
@@ -49,7 +50,7 @@ public class UserController {
 				errorMap.put(error.getField(), error.getDefaultMessage());
 			}
 			model.addAttribute("errorMap", errorMap);
-			return "error/error";
+			return Script.back(errorMap.toString());
 		}
 
 		// 유효성 검사 성공 
@@ -60,13 +61,13 @@ public class UserController {
 			return "redirect:/loginForm";
 		} else {
 			session.setAttribute("principal", principal);
-			return "redirect:/";
+			return Script.href("/","로그인 성공");
 		}
 	}
 
 	// 회원가입
 	@PostMapping("/join")
-	public String join(@Valid JoinReqDto dto, BindingResult bindingResult, Model model) {
+	public @ResponseBody String join(@Valid JoinReqDto dto, BindingResult bindingResult, Model model) {
 
 		// 유효성 검사 실패
 		if (bindingResult.hasErrors()) {
@@ -75,7 +76,7 @@ public class UserController {
 				errorMap.put(error.getField(), error.getDefaultMessage());
 			}
 			model.addAttribute("errorMap", errorMap);
-			return "error/error";
+			return Script.back(errorMap.toString());
 		}
 
 		// 유효성 검사 성공
@@ -84,7 +85,7 @@ public class UserController {
 		dto.setPassword(encPassword);
 		User user = dto.toEntity();
 		userRepository.save(user);
-		return "redirect:/loginForm";
+		return Script.href("/loginForm");
 
 	}
 
