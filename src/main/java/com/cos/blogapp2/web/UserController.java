@@ -30,8 +30,8 @@ public class UserController {
 	// 의존성주입(DI)
 	private final UserRepository userRepository;
 	private final HttpSession session;
-	
-	//로그아웃
+
+	// 로그아웃
 	@GetMapping("/logout")
 	public String logout() {
 		session.invalidate();
@@ -40,8 +40,19 @@ public class UserController {
 
 	// 로그인
 	@PostMapping("/login")
-	public String login(LoginReqDto dto) {
-		
+	public String login(@Valid LoginReqDto dto, BindingResult bindingResult, Model model) {
+
+		// 유효성 검사 실패
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+			for (FieldError error : bindingResult.getFieldErrors()) {
+				errorMap.put(error.getField(), error.getDefaultMessage());
+			}
+			model.addAttribute("errorMap", errorMap);
+			return "error/error";
+		}
+
+		// 유효성 검사 성공 
 		String encPassword = SHA.encrypt(dto.getPassword());
 		User principal = userRepository.mLogin(dto.getUsername(), encPassword);
 
@@ -56,18 +67,18 @@ public class UserController {
 	// 회원가입
 	@PostMapping("/join")
 	public String join(@Valid JoinReqDto dto, BindingResult bindingResult, Model model) {
-		
-		//유효성 검사 실패
-		if(bindingResult.hasErrors()) {
-			Map<String, String>errorMap = new HashMap<>();
-			for(FieldError error : bindingResult.getFieldErrors()) {
-				errorMap.put(error.getField(),error.getDefaultMessage());
+
+		// 유효성 검사 실패
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+			for (FieldError error : bindingResult.getFieldErrors()) {
+				errorMap.put(error.getField(), error.getDefaultMessage());
 			}
-			model.addAttribute("errorMap",errorMap);
+			model.addAttribute("errorMap", errorMap);
 			return "error/error";
 		}
 
-		//유효성 검사 성공 
+		// 유효성 검사 성공
 		// 비밀번호 해시로 변경
 		String encPassword = SHA.encrypt(dto.getPassword());
 		dto.setPassword(encPassword);

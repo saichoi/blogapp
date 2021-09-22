@@ -10,7 +10,7 @@
 			<input type="text" class="form-control" name="username" placeholder="Enter username" required="required">
 		</div>
 		<div class="form-group">
-			<input type="password" class="form-control" name="password" placeholder="Enter password" id="pwd" >
+			<input type="password" class="form-control" name="password" placeholder="Enter password" required="required" >
 		</div> 
 		<button type="submit" class="btn btn-primary col-md-4" style="margin-top: 30px;">로그인</button>
 	</form>
